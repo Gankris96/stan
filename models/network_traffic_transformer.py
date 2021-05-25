@@ -88,8 +88,8 @@ class NetworkTrafficTransformer(object):
         return out_df
    
     def transfer(self, df):
-        df['log_byt'] = np.log(df['byt'])
-        df['log_pkt'] = np.log(df['pkt'])
+        df['log_byt'] = np.log(df['byt'] + 1e-7)
+        df['log_pkt'] = np.log(df['pkt'] + 1e-7)
         bytmax = 20.12915933105231 # df['log_byt'].max()
         pktmax = 12.83
         tdmax = 363
@@ -133,9 +133,9 @@ class NetworkTrafficTransformer(object):
                 label_line += [0, 1]
 
             line_pr = []
-            if row['pr'] == 'TCP':
+            if row['pr'] == 'TCP' or row['pr'] == 'tcp':
                 line_pr = [1, 0, 0]
-            elif row['pr'] == 'UDP':
+            elif row['pr'] == 'UDP' or row['pr'] == 'udp':
                 line_pr = [0, 1, 0]
             else:
                 line_pr = [0, 0, 1]
